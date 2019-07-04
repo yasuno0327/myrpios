@@ -41,8 +41,14 @@ ASM_FILES = $(wildcard $(SRC_DIR)/*.S)
 OBJ_FILES = $(C_FILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%_c.o)
 OBJ_FILES += $(ASM_FILES:$(SRC_DIR)/%.S=$(BUILD_DIR)/%_s.o)
 
+# DEP_FILES: ヘッダーファイルの依存関係定義
 DEP_FILES = $(OBJ_FILES:%.o=%.d)
--include $(DEP_FILES)
+-include $(DEP_FILES) # 再コンパイルする際に読み込む必要がある。
 
+# kernel8.elfのbuild 実行可能なイメージの基本レイアウトを定義する (linker scriptは次のセクションで述べる)
+$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf $(OBJ_FILES)
 
+# elfファイルはOSによって実行されるため、全ての実行可能なプログラムとデータセクションをelfファイルからkernel8.imgへ抽出する。
+# 8は64bitアーキテクチャのARMv8を表す。
+$(ARMGNU)-objcopy kernel8.elf -O binary kernel8.img
 
