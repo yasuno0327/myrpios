@@ -50,5 +50,5 @@ $(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf $(OBJ_FILES)
 
 # elfファイルはOSによって実行されるため、全ての実行可能なプログラムとデータセクションをelfファイルからkernel8.imgへ抽出する。
 # 8は64bitアーキテクチャのARMv8を表す。
+# config.txtでarm_control=0x200を指定するとcpuを64bit modeでブートできる。
 $(ARMGNU)-objcopy kernel8.elf -O binary kernel8.img
-
