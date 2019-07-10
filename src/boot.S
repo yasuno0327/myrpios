@@ -15,11 +15,12 @@ _start:
 proc_hang:
     b proc_hang
 
+// memzeroを呼び出して.bssセクションを削除する。
 master:
     adr    x0, bss_begin
     adr    x1, bss_end
     sub    x1, x1, x0
-    bl     memzero
+    bl     memzero // 2つの引数のみ受け入れる (start addressと削除すべきセクションのサイズ)
 
     mov    sp, #LOW_MEMORY
     bl    kernel_main
