@@ -8,6 +8,31 @@
   32ビットレジスタへの書き込み、読み込みを行う。
 */
 
+// AUX_MU_LSR_REG registerを使ってデータの書き込みが可能かを検証する
+// AUX_MU_IOREG registerを使ってデータ(character)の保存、読み込みを行う
+// 5bit目に1がセット(100000)されている場合は書き込み可能
+void uart_send(char c) {
+  while(1) {
+    if(get32(AUX_MU_LSR_REG & 0x20)) break;
+  }
+  put32(AUX_MU_IO_REG, c);
+}
+
+// 文字列を書き込む
+void uart_send_string(char *str) {
+  for (int i = 0; str[i] != '\0'; i++) {
+    uart_send((char)str[i])
+  }
+}
+
+// 0bit目に1がセットされている(01)場合はデータの読み込み可能
+char uart_recv(void) {
+  while(1) {
+    if(get32(AUX_MU_LSR_REG & 0x01)) break;
+  }
+  return(get32(AUX_MU_IO_REG) & 0xFF);
+}
+
 void uart_init(void) {
   unsigned int selector;
 
