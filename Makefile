@@ -2,7 +2,7 @@
 # raspberry piはx86でarm64アーキテクチャのため
 ARMGNU ?= aarch64-linux-gnu
 
-COPS= -Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-only
+COPS = -Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-only
 # COPS gccのcコンパイル時のオプション
 # -Wall : 全てのWarningを表示する
 # -nostdlib : Cのstandard libraryを使わない => OSによって実行されてしまうため。
@@ -45,10 +45,10 @@ OBJ_FILES += $(ASM_FILES:$(SRC_DIR)/%.S=$(BUILD_DIR)/%_s.o)
 DEP_FILES = $(OBJ_FILES:%.o=%.d)
 -include $(DEP_FILES) # 再コンパイルする際に読み込む必要がある。
 
-# kernel8.elfのbuild 実行可能なイメージの基本レイアウトを定義する (linker scriptは次のセクションで述べる)
-$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf $(OBJ_FILES)
-
-# elfファイルはOSによって実行されるため、全ての実行可能なプログラムとデータセクションをelfファイルからkernel8.imgへ抽出する。
-# 8は64bitアーキテクチャのARMv8を表す。
-# config.txtでarm_control=0x200を指定するとcpuを64bit modeでブートできる。
-$(ARMGNU)-objcopy kernel8.elf -O binary kernel8.img
+kernel8.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
+	# kernel8.elfのbuild 実行可能なイメージの基本レイアウトを定義する (linker scriptは次のセクションで述べる)
+	$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o kernel8.elf $(OBJ_FILES)
+	# elfファイルはOSによって実行されるため、全ての実行可能なプログラムとデータセクションをelfファイルからkernel8.imgへ抽出する。
+	# 8は64bitアーキテクチャのARMv8を表す。
+	# config.txtでarm_control=0x200を指定するとcpuを64bit modeでブートできる。
+	$(ARMGNU)-objcopy kernel8.elf -O binary kernel8.img

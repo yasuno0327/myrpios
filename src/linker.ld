@@ -1,7 +1,3 @@
-/*
-  linker script : objectファイルを実行ファイルにマップする。
-*/
-
 SECTIONS {
   .text.boot : { *(.text.boot) }
   .text : { *(.text) }
