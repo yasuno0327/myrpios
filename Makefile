@@ -1,8 +1,8 @@
 # cross compileで使う際のプレフィックス
 # raspberry piはx86でarm64アーキテクチャのため
-ARMGNU ?= aarch64-linux-gnu
+ARMGNU?=aarch64-linux-gnu
 
-COPS = -Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-only
+COPS=-Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-only
 # COPS gccのcコンパイル時のオプション
 # -Wall : 全てのWarningを表示する
 # -nostdlib : Cのstandard libraryを使わない => OSによって実行されてしまうため。
@@ -11,11 +11,13 @@ COPS = -Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -mgeneral-regs-onl
 # -Iinclude : headerファイルをincludeディレクトリから検索する。
 # -mgeneral-regs-only: 通常のレジスタを使う。ARMのNEONレジスタを使うと複雑性が増すため。
 
-ASMOPS = -Iinclude
+ASMOPS=-Iinclude
 # ASMOPS gccのアセンブリコンパイル時のオプション
 
-BUILD_DIR = build # ビルド済みバイナリ
-SRC_DIR = src #  ソースコード
+# ビルド済みバイナリ
+BUILD_DI=build
+# ソースコード
+SRC_DIR=src
 
 # デフォルトターゲットkernel8.imgを含んだ全てのターゲットへリダイレクト
 all: kernel8.img
