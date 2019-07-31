@@ -15,7 +15,7 @@ ASMOPS=-Iinclude
 # ASMOPS gccのアセンブリコンパイル時のオプション
 
 # ビルド済みバイナリ
-BUILD_DI=build
+BUILD_DIR=build
 # ソースコード
 SRC_DIR=src
 
