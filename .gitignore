@@ -3,3 +3,4 @@ target_bin
 build
 kernel8.*
 firmware
+.DS_Store
